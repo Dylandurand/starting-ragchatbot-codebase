@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: bold 16px Arial; text-anchor: middle; fill: #333; }
+      .subtitle { font: 12px Arial; text-anchor: middle; fill: #666; }
+      .box { fill: #f0f8ff; stroke: #4169e1; stroke-width: 2; rx: 8; }
+      .api-box { fill: #f0fff0; stroke: #228b22; stroke-width: 2; rx: 8; }
+      .rag-box { fill: #fff5ee; stroke: #ff4500; stroke-width: 2; rx: 8; }
+      .ai-box { fill: #f5f0ff; stroke: #9932cc; stroke-width: 2; rx: 8; }
+      .tool-box { fill: #fffacd; stroke: #daa520; stroke-width: 2; rx: 8; }
+      .db-box { fill: #f0ffff; stroke: #008b8b; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .step-text { font: 11px Arial; fill: #333; }
+      .component-text { font: bold 12px Arial; fill: #333; text-anchor: middle; }
+      .detail-text { font: 10px Arial; fill: #666; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="25" class="title">RAG Chatbot Query Processing Flow</text>
+  
+  <!-- Frontend Section -->
+  <rect x="50" y="60" width="200" height="120" class="box"/>
+  <text x="150" y="80" class="component-text">Frontend</text>
+  <text x="150" y="95" class="subtitle">(script.js)</text>
+  <text x="60" y="115" class="step-text">1. User types query</text>
+  <text x="60" y="130" class="step-text">2. sendMessage() called</text>
+  <text x="60" y="145" class="step-text">3. POST /api/query</text>
+  <text x="60" y="160" class="step-text">4. Loading animation</text>
+  
+  <!-- API Layer -->
+  <rect x="350" y="60" width="200" height="120" class="api-box"/>
+  <text x="450" y="80" class="component-text">FastAPI Backend</text>
+  <text x="450" y="95" class="subtitle">(app.py)</text>
+  <text x="360" y="115" class="step-text">5. Receive POST request</text>
+  <text x="360" y="130" class="step-text">6. Parse QueryRequest</text>
+  <text x="360" y="145" class="step-text">7. Create/get session</text>
+  <text x="360" y="160" class="step-text">8. Call rag_system.query()</text>
+  
+  <!-- RAG System -->
+  <rect x="650" y="60" width="200" height="120" class="rag-box"/>
+  <text x="750" y="80" class="component-text">RAG System</text>
+  <text x="750" y="95" class="subtitle">(rag_system.py)</text>
+  <text x="660" y="115" class="step-text">9. Build prompt</text>
+  <text x="660" y="130" class="step-text">10. Get conversation history</text>
+  <text x="660" y="145" class="step-text">11. Call AI generator</text>
+  <text x="660" y="160" class="step-text">12. Extract sources</text>
+  
+  <!-- AI Generator -->
+  <rect x="350" y="250" width="200" height="140" class="ai-box"/>
+  <text x="450" y="270" class="component-text">AI Generator</text>
+  <text x="450" y="285" class="subtitle">(ai_generator.py)</text>
+  <text x="360" y="305" class="step-text">13. Format system prompt</text>
+  <text x="360" y="320" class="step-text">14. Call Claude API</text>
+  <text x="360" y="335" class="step-text">15. Handle tool calls</text>
+  <text x="360" y="350" class="step-text">16. Execute tools</text>
+  <text x="360" y="365" class="step-text">17. Get final response</text>
+  
+  <!-- Search Tools -->
+  <rect x="650" y="250" width="200" height="140" class="tool-box"/>
+  <text x="750" y="270" class="component-text">Search Tools</text>
+  <text x="750" y="285" class="subtitle">(search_tools.py)</text>
+  <text x="660" y="305" class="step-text">18. CourseSearchTool.execute()</text>
+  <text x="660" y="320" class="step-text">19. Apply filters</text>
+  <text x="660" y="335" class="step-text">20. Format results</text>
+  <text x="660" y="350" class="step-text">21. Track sources</text>
+  <text x="660" y="365" class="step-text">22. Return formatted text</text>
+  
+  <!-- Vector Store -->
+  <rect x="950" y="250" width="200" height="140" class="db-box"/>
+  <text x="1050" y="270" class="component-text">Vector Store</text>
+  <text x="1050" y="285" class="subtitle">(ChromaDB)</text>
+  <text x="960" y="305" class="step-text">23. Embed query</text>
+  <text x="960" y="320" class="step-text">24. Similarity search</text>
+  <text x="960" y="335" class="step-text">25. Apply course/lesson filters</text>
+  <text x="960" y="350" class="step-text">26. Return relevant chunks</text>
+  <text x="960" y="365" class="step-text">27. Include metadata</text>
+  
+  <!-- Response Assembly -->
+  <rect x="350" y="450" width="500" height="80" class="api-box"/>
+  <text x="600" y="470" class="component-text">Response Assembly</text>
+  <text x="360" y="490" class="step-text">28. Collect AI response text</text>
+  <text x="360" y="505" class="step-text">29. Gather sources from tools</text>
+  <text x="600" y="490" class="step-text">30. Update conversation history</text>
+  <text x="600" y="505" class="step-text">31. Create QueryResponse JSON</text>
+  
+  <!-- Frontend Display -->
+  <rect x="50" y="600" width="200" height="120" class="box"/>
+  <text x="150" y="620" class="component-text">Frontend Display</text>
+  <text x="150" y="635" class="subtitle">(script.js)</text>
+  <text x="60" y="655" class="step-text">32. Remove loading animation</text>
+  <text x="60" y="670" class="step-text">33. Render markdown response</text>
+  <text x="60" y="685" class="step-text">34. Display sources</text>
+  <text x="60" y="700" class="step-text">35. Re-enable input</text>
+  
+  <!-- Data Flow Arrows -->
+  <!-- Frontend to API -->
+  <line x1="250" y1="120" x2="350" y2="120" class="arrow"/>
+  <text x="290" y="115" class="detail-text">JSON POST</text>
+  
+  <!-- API to RAG -->
+  <line x1="550" y1="120" x2="650" y2="120" class="arrow"/>
+  <text x="590" y="115" class="detail-text">query + session</text>
+  
+  <!-- RAG to AI -->
+  <line x1="750" y1="180" x2="750" y2="210" class="arrow"/>
+  <line x1="750" y1="210" x2="450" y2="210" class="arrow"/>
+  <line x1="450" y1="210" x2="450" y2="250" class="arrow"/>
+  <text x="600" y="205" class="detail-text">prompt + history + tools</text>
+  
+  <!-- AI to Tools -->
+  <line x1="550" y1="320" x2="650" y2="320" class="arrow"/>
+  <text x="590" y="315" class="detail-text">tool call</text>
+  
+  <!-- Tools to Vector Store -->
+  <line x1="850" y1="320" x2="950" y2="320" class="arrow"/>
+  <text x="890" y="315" class="detail-text">search query</text>
+  
+  <!-- Vector Store back to Tools -->
+  <line x1="950" y1="340" x2="850" y2="340" class="arrow"/>
+  <text x="890" y="335" class="detail-text">results + metadata</text>
+  
+  <!-- Tools back to AI -->
+  <line x1="650" y1="360" x2="550" y2="360" class="arrow"/>
+  <text x="590" y="355" class="detail-text">formatted results</text>
+  
+  <!-- AI to Response Assembly -->
+  <line x1="450" y1="390" x2="450" y2="420" class="arrow"/>
+  <line x1="450" y1="420" x2="600" y2="420" class="arrow"/>
+  <line x1="600" y1="420" x2="600" y2="450" class="arrow"/>
+  <text x="520" y="415" class="detail-text">final response</text>
+  
+  <!-- Response back to Frontend -->
+  <line x1="350" y1="490" x2="150" y2="490" class="arrow"/>
+  <line x1="150" y1="490" x2="150" y2="600" class="arrow"/>
+  <text x="240" y="485" class="detail-text">JSON response</text>
+  
+  <!-- Data Structure Indicators -->
+  <rect x="50" y="750" width="1100" height="40" fill="#f8f8f8" stroke="#ccc" rx="5"/>
+  <text x="60" y="765" class="step-text">Data Structures:</text>
+  <text x="60" y="780" class="detail-text">Request: {query: string, session_id: string} → Response: {answer: string, sources: string[], session_id: string}</text>
+</svg>
