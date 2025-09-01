@@ -122,10 +122,31 @@ function addMessage(content, type, sources = null, isWelcome = false) {
     let html = `<div class="message-content">${displayContent}</div>`;
     
     if (sources && sources.length > 0) {
+        // Process sources to extract links and make them clickable
+        const processedSources = sources.map(source => {
+            // Check if source has embedded link (format: "Course - Lesson N|url")
+            if (source.includes('|')) {
+                const [displayText, url] = source.split('|');
+                return `<a href="${url}" target="_blank" class="source-link">${displayText}</a>`;
+            }
+            
+            // Fallback: Check if source has a URL pattern (https://) directly concatenated
+            const urlMatch = source.match(/^(.+?)(https?:\/\/.+)$/);
+            if (urlMatch) {
+                const displayText = urlMatch[1].trim();
+                const url = urlMatch[2];
+                return `<a href="${url}" target="_blank" class="source-link">${displayText}</a>`;
+            }
+            
+            return source;
+        });
+        
         html += `
             <details class="sources-collapsible">
                 <summary class="sources-header">Sources</summary>
-                <div class="sources-content">${sources.join(', ')}</div>
+                <ul class="sources-list">
+                    ${processedSources.map(source => `<li class="source-item">${source}</li>`).join('')}
+                </ul>
             </details>
         `;
     }
